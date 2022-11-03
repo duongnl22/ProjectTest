@@ -450,31 +450,33 @@ public class SinhVienView extends javax.swing.JFrame {
             HSSFRow row = null;
             Cell cell = null;
 
-            row = sheet.createRow(4);
+            row = sheet.createRow(34);
 
-            row.createCell(1, CellType.STRING);
+            cell = row.createCell(0, CellType.STRING);
             cell.setCellValue("Ma SV");
 
-            row.createCell(1, CellType.STRING);
+            cell = row.createCell(1, CellType.STRING);
             cell.setCellValue("Ho Ten");
 
-            row.createCell(2, CellType.STRING);
+            cell = row.createCell(2, CellType.STRING);
             cell.setCellValue("Email");
 
-            row.createCell(3, CellType.NUMERIC);
+            cell = row.createCell(3, CellType.STRING);
             cell.setCellValue("SDT");
 
-            row.createCell(4, CellType.STRING);
+            cell = row.createCell(4, CellType.STRING);
             cell.setCellValue("Gioi Tinh");
 
-            row.createCell(5, CellType.STRING);
+            cell = row.createCell(5, CellType.STRING);
             cell.setCellValue("Dia CHi");
 
-            row.createCell(6, CellType.STRING);
+            cell = row.createCell(6, CellType.STRING);
             cell.setCellValue("Hinh Anh");
 
-            for (SinhVien sv : sinhVienService.getAll()) {
-                row = sheet.createRow(4 + 1);
+            for (int i = 0; i < sinhVienService.getAll().size(); i++) {
+
+                row = sheet.createRow(3 + i);
+                SinhVien sv = sinhVienService.getAll().get(i);
 
                 cell = row.createCell(0, CellType.STRING);
                 cell.setCellValue(sv.getMaSV());
@@ -498,7 +500,7 @@ public class SinhVienView extends javax.swing.JFrame {
                 cell.setCellValue(sv.getHinh());
 
             }
-            File file = new File("C:\\Users\\duongnl\\Desktop\\DanhSachThongKe\\danhSach.xlsx");
+            File file = new File("C:\\Users\\duongnl\\Desktop\\DanhSachThongKe\\danhSach1.xlsx");
             try {
                 FileOutputStream fos = new FileOutputStream(file);
                 workbook.write(fos);
