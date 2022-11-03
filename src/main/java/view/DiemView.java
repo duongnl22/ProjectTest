@@ -340,7 +340,10 @@ public class DiemView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        XSSFWorkbook workbook = new XSSFWorkbook();
 
+        XSSFRow row = null;
+        Cell cell = null;
 
     }//GEN-LAST:event_btnDeleteActionPerformed
 
