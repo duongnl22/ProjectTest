@@ -1,9 +1,19 @@
 package view;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import models.SinhVien;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import service.SinhVienService;
 
 public class SinhVienView extends javax.swing.JFrame {
@@ -48,6 +58,7 @@ public class SinhVienView extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tblBang = new javax.swing.JTable();
         jLabel6 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -161,6 +172,13 @@ public class SinhVienView extends javax.swing.JFrame {
 
         jLabel6.setText("Giới Tính");
 
+        jButton1.setText("Xuat");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -205,11 +223,13 @@ public class SinhVienView extends javax.swing.JFrame {
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(btnNew)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(btnSave))))
+                                        .addComponent(btnSave)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButton1))))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(59, 59, 59)
                                 .addComponent(lblAnh, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(93, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 82, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 656, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -250,9 +270,11 @@ public class SinhVienView extends javax.swing.JFrame {
                 .addGap(9, 9, 9)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnNew)
-                            .addComponent(btnSave))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(btnNew)
+                                .addComponent(btnSave))
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnDelete)
@@ -335,6 +357,10 @@ public class SinhVienView extends javax.swing.JFrame {
         showData(row);
     }//GEN-LAST:event_tblBangMouseClicked
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        printExcel();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     public static void main(String args[]) {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -350,6 +376,7 @@ public class SinhVienView extends javax.swing.JFrame {
     private javax.swing.JButton btnSave;
     private javax.swing.JButton btnUpdate;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -398,7 +425,7 @@ public class SinhVienView extends javax.swing.JFrame {
         String diaChi = txtDiaChi.getText().trim();
         String email = txtEmail.getText().trim();
 
-        SinhVien sv = new SinhVien(ma, ten, email, sdt, gioiTinh, diaChi, null,null,null);
+        SinhVien sv = new SinhVien(ma, ten, email, sdt, gioiTinh, diaChi, null, null, null);
         return sv;
     }
 
@@ -414,5 +441,77 @@ public class SinhVienView extends javax.swing.JFrame {
             rdoNu.setSelected(true);
         }
         txtDiaChi.setText(tblBang.getValueAt(row, 5).toString());
+    }
+
+    private void printExcel() {
+        try {
+            HSSFWorkbook workbook = new HSSFWorkbook();
+            HSSFSheet sheet = workbook.createSheet("danh_sach");
+            HSSFRow row = null;
+            Cell cell = null;
+
+            row = sheet.createRow(4);
+
+            row.createCell(1, CellType.STRING);
+            cell.setCellValue("Ma SV");
+
+            row.createCell(1, CellType.STRING);
+            cell.setCellValue("Ho Ten");
+
+            row.createCell(2, CellType.STRING);
+            cell.setCellValue("Email");
+
+            row.createCell(3, CellType.NUMERIC);
+            cell.setCellValue("SDT");
+
+            row.createCell(4, CellType.STRING);
+            cell.setCellValue("Gioi Tinh");
+
+            row.createCell(5, CellType.STRING);
+            cell.setCellValue("Dia CHi");
+
+            row.createCell(6, CellType.STRING);
+            cell.setCellValue("Hinh Anh");
+
+            for (SinhVien sv : sinhVienService.getAll()) {
+                row = sheet.createRow(4 + 1);
+
+                cell = row.createCell(0, CellType.STRING);
+                cell.setCellValue(sv.getMaSV());
+
+                cell = row.createCell(1, CellType.STRING);
+                cell.setCellValue(sv.getTenSV());
+
+                cell = row.createCell(2, CellType.STRING);
+                cell.setCellValue(sv.getEmail());
+
+                cell = row.createCell(3, CellType.STRING);
+                cell.setCellValue(sv.getSdt());
+
+                cell = row.createCell(4, CellType.STRING);
+                cell.setCellValue(sv.getGioTinh());
+
+                cell = row.createCell(5, CellType.STRING);
+                cell.setCellValue(sv.getDiaChi());
+
+                cell = row.createCell(6, CellType.STRING);
+                cell.setCellValue(sv.getHinh());
+
+            }
+            File file = new File("C:\\Users\\duongnl\\Desktop\\DanhSachThongKe\\danhSach.xlsx");
+            try {
+                FileOutputStream fos = new FileOutputStream(file);
+                workbook.write(fos);
+                fos.flush();
+                fos.close();
+
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            JOptionPane.showMessageDialog(this, "Thanh Cong");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

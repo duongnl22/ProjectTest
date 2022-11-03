@@ -25,7 +25,7 @@ public class HibernateUtil {
         properties.put(Environment.PASS, "123456");
         properties.put(Environment.SHOW_SQL, "true");
         //gen DB tu dong
-        properties.put(Environment.HBM2DDL_AUTO, "create");
+//        properties.put(Environment.HBM2DDL_AUTO, "create");
 
         conf.setProperties(properties);
         conf.addAnnotatedClass(Diem.class);
