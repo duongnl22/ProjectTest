@@ -3,17 +3,15 @@ package view;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import models.SinhVien;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import service.SinhVienService;
 
 public class SinhVienView extends javax.swing.JFrame {
@@ -445,64 +443,70 @@ public class SinhVienView extends javax.swing.JFrame {
 
     private void printExcel() {
         try {
-            HSSFWorkbook workbook = new HSSFWorkbook();
-            HSSFSheet sheet = workbook.createSheet("danh_sach");
-            HSSFRow row = null;
+            XSSFWorkbook workbook = new XSSFWorkbook();
+            XSSFSheet sheet = workbook.createSheet("danh_sach");
+            XSSFRow row = null;
             Cell cell = null;
+            row = sheet.createRow(2);
 
-            row = sheet.createRow(34);
+            cell = row.createCell(3);
+            cell.setCellValue("Danh Sach Sinh Vien");
 
-            cell = row.createCell(0, CellType.STRING);
+            row = sheet.createRow(5);
+            cell = row.createCell(0);
             cell.setCellValue("Ma SV");
 
-            cell = row.createCell(1, CellType.STRING);
+            cell = row.createCell(1);
             cell.setCellValue("Ho Ten");
 
-            cell = row.createCell(2, CellType.STRING);
+            cell = row.createCell(2);
             cell.setCellValue("Email");
 
-            cell = row.createCell(3, CellType.STRING);
+            cell = row.createCell(3);
             cell.setCellValue("SDT");
 
-            cell = row.createCell(4, CellType.STRING);
+            cell = row.createCell(4);
             cell.setCellValue("Gioi Tinh");
 
-            cell = row.createCell(5, CellType.STRING);
+            cell = row.createCell(5);
             cell.setCellValue("Dia CHi");
 
-            cell = row.createCell(6, CellType.STRING);
+            cell = row.createCell(6);
             cell.setCellValue("Hinh Anh");
 
             for (int i = 0; i < sinhVienService.getAll().size(); i++) {
 
-                row = sheet.createRow(3 + i);
+                row = sheet.createRow(6 + i);
                 SinhVien sv = sinhVienService.getAll().get(i);
 
-                cell = row.createCell(0, CellType.STRING);
+                cell = row.createCell(0);
                 cell.setCellValue(sv.getMaSV());
 
-                cell = row.createCell(1, CellType.STRING);
+                cell = row.createCell(1);
                 cell.setCellValue(sv.getTenSV());
 
-                cell = row.createCell(2, CellType.STRING);
+                cell = row.createCell(2);
                 cell.setCellValue(sv.getEmail());
 
-                cell = row.createCell(3, CellType.STRING);
+                cell = row.createCell(3);
                 cell.setCellValue(sv.getSdt());
 
-                cell = row.createCell(4, CellType.STRING);
-                cell.setCellValue(sv.getGioTinh());
+                cell = row.createCell(4);
+                cell.setCellValue(sv.getGioTinh() ? "Nam" : "Nu");
 
-                cell = row.createCell(5, CellType.STRING);
+                cell = row.createCell(5);
                 cell.setCellValue(sv.getDiaChi());
 
-                cell = row.createCell(6, CellType.STRING);
+                cell = row.createCell(6);
                 cell.setCellValue(sv.getHinh());
 
             }
-            File file = new File("C:\\Users\\duongnl\\Desktop\\DanhSachThongKe\\danhSach1.xlsx");
+
+//            int width = sheet.getRow(7).getPhysicalNumberOfCells();
+//            sheet.autoSizeColumn(width);
+            Date date = new Date();
             try {
-                FileOutputStream fos = new FileOutputStream(file);
+                FileOutputStream fos = new FileOutputStream("C:\\Users\\duongnl\\Desktop\\DanhSachThongKe\\danhSach_" + date.getDay() + "_" + date.getMonth()+ ".xlsx");
                 workbook.write(fos);
                 fos.flush();
                 fos.close();
