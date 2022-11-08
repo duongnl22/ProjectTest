@@ -131,5 +131,11 @@ public class SinhVien implements Serializable {
     public void setLopHoc(LopHo lopHoc) {
         this.lopHoc = lopHoc;
     }
+
+    @Override
+    public String toString() {
+        return "SinhVien{" + "maSV=" + maSV + ", tenSV=" + tenSV + ", email=" + email + ", sdt=" + sdt + ", gioTinh=" + gioTinh + ", diaChi=" + diaChi + ", hinh=" + hinh + ", diem=" + diem + ", lopHoc=" + lopHoc + '}';
+    }
+    
     
 }
