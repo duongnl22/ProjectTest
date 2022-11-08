@@ -1,10 +1,19 @@
 package view;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import models.SinhVien;
@@ -57,6 +66,7 @@ public class SinhVienView extends javax.swing.JFrame {
         tblBang = new javax.swing.JTable();
         jLabel6 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -170,10 +180,17 @@ public class SinhVienView extends javax.swing.JFrame {
 
         jLabel6.setText("Giới Tính");
 
-        jButton1.setText("Xuat");
+        jButton1.setText("Xuat Excel");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Xuat PDF");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
             }
         });
 
@@ -217,7 +234,9 @@ public class SinhVienView extends javax.swing.JFrame {
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(btnDelete)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(btnUpdate))
+                                        .addComponent(btnUpdate)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButton2))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(btnNew)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -227,7 +246,7 @@ public class SinhVienView extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(59, 59, 59)
                                 .addComponent(lblAnh, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(93, Short.MAX_VALUE))
+                .addContainerGap(81, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 82, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 656, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -273,18 +292,19 @@ public class SinhVienView extends javax.swing.JFrame {
                                 .addComponent(btnNew)
                                 .addComponent(btnSave))
                             .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnDelete)
-                            .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel7)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(28, 28, 28)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnDelete, btnNew, btnSave, btnUpdate});
@@ -359,6 +379,10 @@ public class SinhVienView extends javax.swing.JFrame {
         printExcel();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        printPDF();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     public static void main(String args[]) {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -375,6 +399,7 @@ public class SinhVienView extends javax.swing.JFrame {
     private javax.swing.JButton btnUpdate;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -506,7 +531,7 @@ public class SinhVienView extends javax.swing.JFrame {
 //            sheet.autoSizeColumn(width);
             Date date = new Date();
             try {
-                FileOutputStream fos = new FileOutputStream("C:\\Users\\duongnl\\Desktop\\DanhSachThongKe\\danhSach_" + date.getDay() + "_" + date.getMonth()+ ".xlsx");
+                FileOutputStream fos = new FileOutputStream("C:\\Users\\duongnl\\Desktop\\DanhSachThongKe\\danhSach_" + date.getDay() + "_" + date.getMonth() + ".xlsx");
                 workbook.write(fos);
                 fos.flush();
                 fos.close();
@@ -519,5 +544,42 @@ public class SinhVienView extends javax.swing.JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void printPDF() {
+        try {
+            Document doccument = new Document();
+            FileOutputStream fos = new FileOutputStream(new File("C:\\Users\\duongnl\\Desktop\\DanhSachThongKe\\danhSach_1.pdf"));
+            PdfWriter.getInstance(doccument, fos);
+
+            doccument.open();
+
+            Font f = new Font();
+            f.setStyle(Font.NORMAL);
+            f.setSize(30);
+
+            Paragraph p = new Paragraph("HÓA ĐƠN TÍNH TIỀN",f);
+            p.setAlignment(Element.ALIGN_CENTER);
+            doccument.add(p);
+
+            Paragraph p2 = new Paragraph();
+            p2.add("ABC GI GI Day");
+            doccument.add(p2);
+
+            Font f1 = new Font();
+            f1.setStyle(Font.BOLD);
+            f1.setSize(8);
+
+            doccument.add(new Paragraph("Nguyen Le Duong", f1));
+
+            doccument.close();
+            JOptionPane.showMessageDialog(this, "DONE");
+
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (DocumentException ex) {
+            ex.printStackTrace();
+        }
+
     }
 }
